@@ -214,9 +214,20 @@ module picosoc (
     //
     //  PCPI rv32 ISA extension
     //
-    wire [31:0] acc0;
-    wire [31:0] acc1;
 
+    wire [ 31:0] acc0;
+    wire [ 31:0] acc1;
+    wire [255:0] dot_mul;
+
+    // FIXME:
+    //
+    // 1. use OLIMP_VEC_8U8_16I8_2S32 as independent module (alias MACC)
+    // 2. flush accumulations into dedicated memory (now is acc0+acc1 for debug)
+    // 3. add option to accumulate or not with BIAS (alias MACB)
+    // 4. add option to do inplace RELU (alias MACZ)
+    //
+
+/*
     // 1 x  8 x uint8
     // 2 x 16 x  int8
     // => 2 x 1 short
@@ -227,8 +238,35 @@ module picosoc (
         .acc0    (acc0),
         .acc1    (acc1)
     );
+*/
 
+    MACC_16_16_32 mul [7:0] (
+        .clk    (clk_spi),
+        .clk_en (1'b1   ),
+        .A      ({2{d_rdata}} ),
+        .B      (c_rdata      ),
+        .X      (dot_mul      )
+   );
+
+    // for now do in-place OLIMP_VEC_8U8_16I8_2S32
+    assign acc0 = $signed(dot_mul[  0 +: 16])
+            + $signed(dot_mul[ 16 +: 16])
+            + $signed(dot_mul[ 32 +: 16])
+            + $signed(dot_mul[ 48 +: 16])
+            + $signed(dot_mul[ 64 +: 16])
+            + $signed(dot_mul[ 80 +: 16])
+            + $signed(dot_mul[ 96 +: 16])
+            + $signed(dot_mul[112 +: 16]);
+    assign acc1 = $signed(dot_mul[128 +: 16])
+            + $signed(dot_mul[144 +: 16])
+            + $signed(dot_mul[160 +: 16])
+            + $signed(dot_mul[176 +: 16])
+            + $signed(dot_mul[192 +: 16])
+            + $signed(dot_mul[208 +: 16])
+            + $signed(dot_mul[224 +: 16])
+            + $signed(dot_mul[240 +: 16]);
     reg stage = 0;
+    // end inplace OLIMP_VEC_8U8_16I8_2S32
 
     always @(posedge clk_cpu) begin
         //pcpi_rd <= 'bx;
@@ -240,6 +278,9 @@ module picosoc (
                     if (!pcpi_ready) stage <= 1;
                 end
                 1: begin
+                    // ToDo:
+                    // for now return summ of summ (debug)
+                    // but register it accesible memory
                     pcpi_rd <= acc0 + acc1;
                     pcpi_ready <= 1;
 

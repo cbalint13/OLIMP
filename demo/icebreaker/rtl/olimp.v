@@ -32,10 +32,10 @@
 
 module OLIMP_VEC_8U8_16I8_2S32 (
     input clk_dsp,
-    input   [63:0] data,
-    input  [127:0] coef,
-    output [31:0] acc0,
-    output [31:0] acc1
+    input  wire [ 63:0] data,
+    input  wire [127:0] coef,
+    output wire [ 31:0] acc0,
+    output wire [ 31:0] acc1
 );
 
     wire [255:0] dot_mul;
