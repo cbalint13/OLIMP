@@ -339,6 +339,8 @@ def compute(target="llvm"):
 
     # verify the correctness
     tvm.testing.assert_allclose(y.asnumpy(), np.dot(a_, b_.T), rtol=0)
-    t_func.export_library("tensorize_acc32.o")
+
+    if (debug):
+      t_func.export_library("tensorize_acc32.o")
 
 compute()
