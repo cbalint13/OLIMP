@@ -3,7 +3,7 @@ CROSS=riscv64-unknown-elf-
 CFLAGS=-g -Os -march=rv32im -mabi=ilp32
 
 
-all: out/icebreaker.json out/icebreaker.bin
+all: out/icebreaker.json out/icebreaker.bin out/icebreaker_fw.bin
 
 sim: icesim
 
@@ -55,7 +55,7 @@ iceprog_fw: icebreaker_fw.bin
 brd/icebreaker_sections.lds: src/sections.lds
 	$(CROSS)cpp -P -DICEBREAKER -o $@ $^
 
-out/icebreaker_fw.elf: brd/icebreaker_sections.lds src/start.s src/firmware.c
+out/icebreaker_fw.elf: brd/icebreaker_sections.lds src/start.s src/firmware.c src/rv32-custom.h
 	$(CROSS)gcc $(CFLAGS) -DICEBREAKER -Wl,-Bstatic,-T,brd/icebreaker_sections.lds,--strip-debug -ffreestanding -nostdlib -o out/icebreaker_fw.elf src/start.s src/firmware.c
 	$(CROSS)size --format berkley out/icebreaker_fw.elf
 
