@@ -88,7 +88,7 @@ primfn(X_1: handle, W_1: handle, F.wmma.accumulator_1: handle) -> ()
 
  [TVM](https://github.com/apache/tvm) leverage **complete** end-to-end code generation to **C language** using OLIMP hardware scheduling:
 
-   * All **dense** operations will benefit **@tir.call_extern("MACC_olimp")** the OLIMP hardware block.
+   * All **dense** operations will benefit **@tir.call_extern("O_VEC_")** the OLIMP hardware block.
    * Further **conv2d** schedules translates to many **dense** schedules
    * Any **other** operators not covered by OLIMP hardware will be covered by the soft RV32IM (slower)
    * TVM schedulers also **guarantee** continuous & aligned access to the vector segments in memory
