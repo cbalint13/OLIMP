@@ -3,7 +3,7 @@
 The demo **RISC-V SoC** on [IceBreaker](https://github.com/icebreaker-fpga/icebreaker) implements:
 
    * **CPU** @ **20Mhz** **rv32im** using [PicoRV32](https://github.com/cliffordwolf/picorv32) with ISA extensions
-   * **4MByte ROM** as fast Quad (x4) DDR (+QPI) continous memory mapped @ **40Mhz** I/O clock
+   * **4MByte ROM** as fast Quad (x4) DDR (+QPI) continuous memory mapped @ **40Mhz** I/O clock
    * **128kByte RAM** main memory organized as **64bit** wide (4 x 32kByte SRAM)
    * **128bit wide** BRAM memory for coefficients (N x 8 x 128Byte BRAM)
    * RISC-V **ISA extended** with OLIMP **VEC-8U8-16I8-2S32** running @ **40Mhz** DSP clock
