@@ -23,7 +23,7 @@ out/icebreaker.asc: out/icebreaker.json
 	cat log/icebreaker-pnr.log | sed -n '/Device utilisation/,/Placed/p'
 
 out/icebreaker.bin: out/icebreaker.asc
-	icetime -d up5k -c 20 -mtr out/icebreaker.rpt out/icebreaker.asc
+	icetime -d up5k -mtr out/icebreaker.rpt out/icebreaker.asc
 	icepack out/icebreaker.asc out/icebreaker.bin
 
 ##
