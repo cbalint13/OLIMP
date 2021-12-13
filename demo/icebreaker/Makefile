@@ -15,11 +15,11 @@ flash: iceprog
 
 out/icebreaker.json: rtl/icebreaker.v rtl/spimemio.v rtl/simpleuart.v rtl/icesoc.v rtl/picorv32.v rtl/olimp.v rtl/memory.v
 	mkdir -p log out
-	yosys -ql log/icebreaker-syn.log -p 'synth_ice40 -abc9 -device u -top icebreaker -json out/icebreaker.json' $^
+	yosys -ql log/icebreaker-syn.log -p 'synth_ice40 -abc9 -abc2 -dff -device u -top icebreaker -json out/icebreaker.json' $^ || true
 	cat log/icebreaker-syn.log | sed -n '/statistics/,/CHECK/p'
 
 out/icebreaker.asc: out/icebreaker.json
-	nextpnr-ice40 --freq 40 -l log/icebreaker-pnr.log --pre-pack brd/clocks.py --up5k  --package sg48 --asc out/icebreaker.asc --pcf brd/icebreaker.pcf --json out/icebreaker.json
+	nextpnr-ice40 --freq 40 -l log/icebreaker-pnr.log --pre-pack brd/clocks.py --up5k --package sg48 --asc out/icebreaker.asc --pcf brd/icebreaker.pcf --json out/icebreaker.json
 	cat log/icebreaker-pnr.log | sed -n '/Device utilisation/,/Placed/p'
 
 out/icebreaker.bin: out/icebreaker.asc
