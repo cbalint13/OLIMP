@@ -22,7 +22,7 @@ IN Vectors:
 OUT Lanes:
    2 x int32  (2 x 32 bit)
 ```
-![8U8-16I8-2S32](/docs/imgs/OLIMP-VEC-8U8-16I8-2S32.png)
+![8U8-16I8-2S32](/docs/imgs/OLIMP-VEC-1x8U8-2x8I8-2S32.png)
 
 
 The OLIMP block extends the **rv32im** ISA via [PCPI](https://github.com/cliffordwolf/picorv32#pico-co-processor-interface-pcpi) interface.

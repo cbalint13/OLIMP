@@ -15,7 +15,7 @@ flash: iceprog
 
 out/icebreaker.json: rtl/icebreaker.v rtl/spimemio.v rtl/simpleuart.v rtl/icesoc.v rtl/picorv32.v rtl/olimp.v rtl/memory.v
 	mkdir -p log out
-	yosys -ql log/icebreaker-syn.log -p 'synth_ice40 -abc9 -abc2 -dff -device u -top icebreaker -json out/icebreaker.json' $^ || true
+	yosys -ql log/icebreaker-syn.log -p 'synth_ice40 -abc9 -abc2 -dff -device u -top icebreaker -json out/icebreaker.json' $^
 	cat log/icebreaker-syn.log | sed -n '/statistics/,/CHECK/p'
 
 out/icebreaker.asc: out/icebreaker.json
